@@ -302,12 +302,6 @@
 
 #![forbid(unsafe_code)]
 
-#[cfg(all(feature = "pure-rust", feature = "optimal"))]
-compile_error!("jwt-simple: the `optimal` feature is only available when the `pure-rust` feature is disabled - Consider disabling default Cargo features.");
-
-#[cfg(all(not(feature = "pure-rust"), not(feature = "optimal")))]
-compile_error!("jwt-simple: the `optimal` feature is required when the `pure-rust` feature is disabled - Consider enabling default Cargo features.");
-
 pub mod algorithms;
 pub mod claims;
 pub mod common;
@@ -368,6 +362,11 @@ pub mod prelude {
 mod tests {
     use crate::prelude::*;
 
+    #[cfg(any(
+        feature = "rsa-boring",
+        feature = "rsa-superboring",
+        feature = "rsa-openssl"
+    ))]
     const RSA_KP_PEM: &str = r"
 -----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEAyqq0N5u8Jvl+BLH2VMP/NAv/zY9T8mSq0V2Gk5Ql5H1a+4qi
@@ -398,6 +397,11 @@ PBziuVURslNyLdlFsFlm/kfvX+4Cxrbb+pAGETtRTgmAoCDbvuDGRQ==
 -----END RSA PRIVATE KEY-----
     ";
 
+    #[cfg(any(
+        feature = "rsa-boring",
+        feature = "rsa-superboring",
+        feature = "rsa-openssl"
+    ))]
     const RSA_PK_PEM: &str = r"
 -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyqq0N5u8Jvl+BLH2VMP/
@@ -438,6 +442,11 @@ a3t0cyDKinOY7JGIwh8DWAa4pfEzgg56yLcilYSSohXeaQV0nR8+rm9J8GUYXjPK
             .unwrap();
     }
 
+    #[cfg(any(
+        feature = "rsa-boring",
+        feature = "rsa-superboring",
+        feature = "rsa-openssl"
+    ))]
     #[test]
     fn rs256() {
         let key_pair = RS256KeyPair::from_pem(RSA_KP_PEM).unwrap();
@@ -450,6 +459,11 @@ a3t0cyDKinOY7JGIwh8DWAa4pfEzgg56yLcilYSSohXeaQV0nR8+rm9J8GUYXjPK
         let _e = Base64::decode_to_vec(hex_e, None).unwrap();
     }
 
+    #[cfg(any(
+        feature = "rsa-boring",
+        feature = "rsa-superboring",
+        feature = "rsa-openssl"
+    ))]
     #[test]
     fn ps384() {
         let key_pair = PS384KeyPair::generate(2048).unwrap();

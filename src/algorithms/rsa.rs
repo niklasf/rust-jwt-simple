@@ -1,5 +1,9 @@
-#[cfg(any(feature = "pure-rust", target_arch = "wasm32", target_arch = "wasm64"))]
-use superboring as boring;
+#[cfg(feature = "rsa-boring")]
+use boring as ssl;
+#[cfg(feature = "openssl")]
+use openssl as ssl;
+#[cfg(feature = "rsa-superboring")]
+use superboring as ssl;
 
 use boring::bn::BigNum;
 use boring::hash::MessageDigest;

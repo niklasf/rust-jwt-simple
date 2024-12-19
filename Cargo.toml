@@ -30,24 +30,18 @@ serde = { version = "1.0.214", features = ["derive"] }
 serde_json = "1.0.132"
 thiserror = "2.0.0"
 zeroize = "1.8.1"
-
-[target.'cfg(not(any(target_arch = "wasm32", target_arch = "wasm64")))'.dependencies]
-boring = { version = "4.11.0", optional = true }
-superboring = { version = "0.1.3", optional = true }
-
-[target.'cfg(any(target_arch = "wasm32", target_arch = "wasm64"))'.dependencies]
-superboring = { version = "0.1.3" }
+openssl = { version = "0.10.68", optional = true }
+boring = { version = "4.13.0", optional = true }
+superboring = { version = "0.1.4", optional = true }
 
 [dev-dependencies]
 benchmark-simple = "0.1.10"
 
 [features]
-default = ["optimal"]
-cwt = ["ciborium"]
-optimal = ["boring"]
-# Note: to emulate boringssl, "default-features = false" is required in addition to "pure-rust".
-pure-rust = ["superboring"]
-wasi-abi2 = ["coarsetime/wasi-abi2"]
+default = ["rsa-boring"]
+rsa-openssl = ["dep:openssl"]
+rsa-boring = ["dep:boring"]
+rsa-superboring = ["dep:superboring"]
 
 [[bench]]
 name = "benchmark"

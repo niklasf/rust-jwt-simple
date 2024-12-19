@@ -262,6 +262,11 @@ fn explicitly_empty_audiences() {
     assert!(decoded.audiences.is_none());
 }
 
+#[cfg(any(
+    feature = "rsa-boring",
+    feature = "rsa-superboring",
+    feature = "rsa-openssl"
+))]
 #[test]
 fn very_old_artificial_time() {
     use crate::prelude::*;
